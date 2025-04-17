@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FinTech App</title>
+</head>
+<body>
+    <h1>Welcome to FinTech App</h1>
+    <form id="userForm">
+        <input type="text" id="name" placeholder="Enter name" required>
+        <button type="submit">Add User</button>
+    </form>
+    <ul id="users"></ul>
+    <script>
+        const form = document.getElementById('userForm');
+        const usersList = document.getElementById('users');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            await fetch('http://localhost:5000/api/users', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({name})
+            });
+            document.getElementById('name').value = '';
+            loadUsers();
+        });
+
+        async function loadUsers() {
+            const res = await fetch('http://localhost:5000/api/users');
+            const users = await res.json();
+            usersList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.name;
+                usersList.appendChild(li);
+            });
+        }
+
+        loadUsers();
+    </script>
+</body>
+</html>
