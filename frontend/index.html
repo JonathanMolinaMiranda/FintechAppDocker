@@ -12,23 +12,25 @@
     </form>
     <ul id="users"></ul>
     <script>
+        const API_URL = 'http://54.81.49.255:5000';
+
         const form = document.getElementById('userForm');
         const usersList = document.getElementById('users');
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('name').value;
-            await fetch('http://localhost:5000/api/users', {
+            await fetch(`${API_URL}/api/users`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({name})
+                body: JSON.stringify({ name })
             });
             document.getElementById('name').value = '';
             loadUsers();
         });
 
         async function loadUsers() {
-            const res = await fetch('http://localhost:5000/api/users');
+            const res = await fetch(`${API_URL}/api/users`);
             const users = await res.json();
             usersList.innerHTML = '';
             users.forEach(user => {

@@ -7,7 +7,7 @@ CORS(app)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host='db',
+        host='fintech-db',
         user='root',
         password='example',
         database='fintech'
